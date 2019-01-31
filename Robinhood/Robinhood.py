@@ -210,7 +210,26 @@ class Robinhood:
 
         return data['results']
 
+    def instrument_full(self, id):
+        """Fetch instrument info
 
+            Args:
+                id (str): instrument id
+
+            Returns:
+                (:obj:`dict`): JSON dict of instrument
+        """
+        url = str(id)
+
+        try:
+            req = requests.get(url, timeout=15)
+            req.raise_for_status()
+            data = req.json()
+        except requests.exceptions.HTTPError:
+            raise RH_exception.InvalidInstrumentId()
+
+        return data
+		
     def quote_data(self, stock=''):
         """Fetch stock quote
 
